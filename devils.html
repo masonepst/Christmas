@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Christmas Gift</title>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            background: black;
+            color: white;
+            font-family: Arial;
+            flex-direction: column;
+        }
+        #gift {
+            width: 500px;
+            height: 500px;
+            background-image: url('https://www.bing.com/th/id/OIP.PUCrwVkklcFVVWCYi0Ma5gHaHI?w=235&h=211&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2');
+            background-size: cover;
+            cursor: pointer;
+            transition: transform 0.4s ease;
+            position: relative;
+        }
+        #reveal {
+            display: none;
+            text-align: center;
+            font-size: 25px;
+        }
+
+        /* pulsing animation */
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+
+        #click-message {
+            margin-top: 20px;
+            font-size: 28px;
+            color: white;
+            animation: pulse 1.5s infinite;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div id="gift"></div>
+
+<div id="click-message">Merry Christmas Paige. Click on Santa for gift!</div>
+
+<div id="reveal">
+    <audio id="bgm" src="https://cdn.pixabay.com/audio/2022/11/08/audio_2607c60e52.mp3"></audio>
+    <img src="https://www.pngitem.com/pimgs/m/404-4047035_new-jersey-devils-logo-hd-png-download.png" style="width:200px;">
+    <br><br>
+    You’re going to the New Jersey Devils game with me!  
+    <br><br>
+    🎟️ Section 22 Row 20  
+    <br><br>
+    📅 1/4/2026 7:00
+    <br><br>  
+    🏒 Let's go Devils!
+</div>
+
+<!-- CONFETTI LIBRARY -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+    const gift = document.getElementById("gift");
+    const reveal = document.getElementById("reveal");
+    const clickMessage = document.getElementById("click-message");
+
+    gift.onclick = () => {
+        clickMessage.style.display = "none";  
+        document.getElementById("bgm").play();
+        
+        // shrink animation
+        gift.style.transform = "scale(0)";
+
+        setTimeout(() => {
+            gift.style.display = "none";
+            reveal.style.display = "block";
+
+            // CONFETTI BURST
+            confetti({
+                particleCount: 200,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }, 400);
+    };
+</script>
+
+</body>
+</html>
