@@ -51,7 +51,8 @@
 <div id="click-message">Merry Christmas Paige. Click on Santa for gift!</div>
 
 <div id="reveal">
-    <audio id="bgm" src="https://cdn.pixabay.com/audio/2022/11/08/audio_2607c60e52.mp3"></audio>
+    <!-- Added preload="auto" -->
+    <audio id="bgm" src="https://cdn.pixabay.com/audio/2022/11/08/audio_2607c60e52.mp3" preload="auto"></audio>
     <img src="https://www.pngitem.com/pimgs/m/404-4047035_new-jersey-devils-logo-hd-png-download.png" style="width:200px;">
     <br><br>
     You’re going to the New Jersey Devils game with me!  
@@ -70,19 +71,22 @@
     const gift = document.getElementById("gift");
     const reveal = document.getElementById("reveal");
     const clickMessage = document.getElementById("click-message");
+    const bgm = document.getElementById("bgm");
 
     gift.onclick = () => {
         clickMessage.style.display = "none";  
-        document.getElementById("bgm").play();
+
         
-        // shrink animation
+        bgm.play().catch(err => console.log("Audio failed:", err));
+
+        
         gift.style.transform = "scale(0)";
 
         setTimeout(() => {
             gift.style.display = "none";
             reveal.style.display = "block";
 
-            // CONFETTI BURST
+            
             confetti({
                 particleCount: 200,
                 spread: 70,
