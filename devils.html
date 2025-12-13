@@ -1,99 +1,140 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Your Christmas Gift</title>
-    <style>
-        body {
-            display: flex;
-            height: 100vh;
-            justify-content: center;
-            align-items: center;
-            background: black;
-            color: white;
-            font-family: Arial;
-            flex-direction: column;
-        }
-        #gift {
-            width: 500px;
-            height: 500px;
-            background-image: url('https://www.bing.com/th/id/OIP.PUCrwVkklcFVVWCYi0Ma5gHaHI?w=235&h=211&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2');
-            background-size: cover;
-            cursor: pointer;
-            transition: transform 0.4s ease;
-            position: relative;
-        }
-        #reveal {
-            display: none;
-            text-align: center;
-            font-size: 25px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Christmas Gift</title>
 
-        /* pulsing animation */
-        @keyframes pulse {
-            0% { opacity: 0.3; }
-            50% { opacity: 1; }
-            100% { opacity: 0.3; }
-        }
+<style>
+    body {
+        margin: 0;
+        display: flex;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+        background: black;
+        color: white;
+        font-family: Arial, sans-serif;
+        flex-direction: column;
+        overflow: hidden;
+    }
 
-        #click-message {
-            margin-top: 20px;
-            font-size: 28px;
-            color: white;
-            animation: pulse 1.5s infinite;
-            text-align: center;
-        }
-    </style>
+    #gift {
+        width: 420px;
+        height: 420px;
+        background-image: url('https://www.bing.com/th/id/OIP.PUCrwVkklcFVVWCYi0Ma5gHaHI?w=235&h=211&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2');
+        background-size: cover;
+        cursor: pointer;
+        transition: transform 0.6s ease, opacity 0.6s ease;
+    }
+
+    #gift.hide {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    #click-message {
+        margin-top: 20px;
+        font-size: 26px;
+        animation: pulse 1.5s infinite;
+        text-align: center;
+    }
+
+    @keyframes pulse {
+        0% { opacity: 0.3; }
+        50% { opacity: 1; }
+        100% { opacity: 0.3; }
+    }
+
+    #reveal {
+        display: none;
+        text-align: center;
+        font-size: 24px;
+    }
+
+    .line {
+        opacity: 0;
+        animation: fadeIn 1s forwards;
+    }
+
+    .line:nth-child(1) { animation-delay: 0.5s; }
+    .line:nth-child(2) { animation-delay: 1.8s; }
+    .line:nth-child(3) { animation-delay: 3.1s; }
+    .line:nth-child(4) { animation-delay: 4.4s; }
+    .line:nth-child(5) { animation-delay: 5.7s; }
+
+    @keyframes fadeIn {
+        to { opacity: 1; }
+    }
+
+    img {
+        margin: 20px 0;
+    }
+</style>
 </head>
+
 <body>
 
 <div id="gift"></div>
-
-<div id="click-message">Merry Christmas Paige. Click on Santa for gift!</div>
+<div id="click-message">Merry Christmas Paige <br>Click on Santa for your gift!</div>
 
 <div id="reveal">
-    <!-- Added preload="auto" -->
-    <audio id="bgm" src="https://cdn.pixabay.com/audio/2022/11/08/audio_2607c60e52.mp3" preload="auto"></audio>
-    <img src="https://www.pngitem.com/pimgs/m/404-4047035_new-jersey-devils-logo-hd-png-download.png" style="width:200px;">
-    <br><br>
-    You’re going to the New Jersey Devils game with me!  
-    <br><br>
-     Section 22 Row 20  
-    <br><br>
-     1/4/2026 7:00 PM
-    <br><br>  
-     Let's go Devils!
+
+    <p class="line">You’re going to the</p>
+    <p class="line"><strong>New Jersey Devils</strong> game with me!</p>
+    <p class="line">Section 22 - Row 20</p>
+    <p class="line">January 4, 2026 @ 7:00 PM</p>
+    <img src="https://www.pngitem.com/pimgs/m/404-4047035_new-jersey-devils-logo-hd-png-download.png" width="200">
 </div>
 
-<!-- CONFETTI LIBRARY -->
+<!-- AUDIO -->
+<audio id="music" src="https://cdn.pixabay.com/audio/2022/11/08/audio_2607c60e52.mp3" preload="auto"></audio>
+<audio id="horn" src="https://cdn.pixabay.com/audio/2022/03/10/audio_2c2c5c9c61.mp3" preload="auto"></audio>
+
+<!-- CONFETTI / SNOW -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
-    const gift = document.getElementById("gift");
-    const reveal = document.getElementById("reveal");
-    const clickMessage = document.getElementById("click-message");
-    const bgm = document.getElementById("bgm");
+const gift = document.getElementById("gift");
+const reveal = document.getElementById("reveal");
+const clickMessage = document.getElementById("click-message");
+const music = document.getElementById("music");
+const horn = document.getElementById("horn");
 
-    gift.onclick = () => {
-        clickMessage.style.display = "none";  
+gift.onclick = () => {
+    clickMessage.style.display = "none";
+    gift.classList.add("hide");
 
-        
-        bgm.play().catch(err => console.log("Audio failed:", err));
+    music.play().catch(()=>{});
 
-        
-        gift.style.transform = "scale(0)";
+    setTimeout(() => {
+        gift.style.display = "none";
+        reveal.style.display = "block";
 
-        setTimeout(() => {
-            gift.style.display = "none";
-            reveal.style.display = "block";
+        horn.play().catch(()=>{});
 
-            
-            confetti({
-                particleCount: 200,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
-        }, 400);
-    };
+        confetti({
+            particleCount: 220,
+            spread: 80,
+            origin: { y: 0.6 }
+        });
+    }, 600);
+};
+
+// ❄️ Snowfall background
+function snow() {
+    confetti({
+        particleCount: 2,
+        angle: 90,
+        spread: 360,
+        startVelocity: 0,
+        gravity: 0.35,
+        ticks: 300,
+        origin: { x: Math.random(), y: 0 },
+        colors: ['#ffffff']
+    });
+}
+setInterval(snow, 200);
 </script>
 
 </body>
